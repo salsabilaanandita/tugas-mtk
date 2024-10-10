@@ -46,13 +46,13 @@
         <label for="principal">Modal Awal:</label>
         <input type="number" id="principal" placeholder="Masukkan jumlah awal">
 
-        <label for="rate">Persentase Bunga:</label>
+        <label for="rate">Persentase Bunga (%):</label>
         <input type="number" id="rate" placeholder="Masukkan persen bunga">
 
-        <label for="time">Periode:</label>
+        <label for="time">Periode (tahun):</label>
         <input type="number" id="time" placeholder="Masukkan waktu (tahun)">
 
-        <label for="type">Pilih Jenis Bunga:</label>
+        <label for="type">Pilih Periode:</label>
         <select id="type">
             <option value="bulan">Per Bulan</option>
             <option value="tahun">Per Tahun</option>
@@ -67,7 +67,7 @@
 
         <button onclick="hitungBunga()">Hitung Bunga</button>
 
-        <div class="result" id="hasil" style="text-align: center;">Hasil Disini!</div>
+        <div class="result" id="hasil" style="text-align: center;">Hasil akan ditampilkan di sini.</div>
     </div>
 
     <script>
@@ -75,19 +75,20 @@
             // Ambil nilai input
             let principal = document.getElementById('principal').value;
             let rate = document.getElementById('rate').value;
-            let time = document.getElementById('time').gitvalue;
+            let time = document.getElementById('time').value;
             let type = document.getElementById('type').value;
             let interestType = document.getElementById('interestType').value;
 
             // Konversi input menjadi angka
             principal = parseFloat(principal);
-            rate = parseFloat(rate) / 100;
+            rate = parseFloat(rate) / 100; // Persentase diubah ke desimal
             time = parseFloat(time);
 
             let bunga = 0;
 
             // Hitung bunga sesuai jenis yang dipilih
             if (interestType === 'tunggal') {
+                // Bunga Tunggal
                 if (type === 'bulan') {
                     bunga = principal * rate * time * 12;
                 } else if (type === 'tahun') {
@@ -96,6 +97,7 @@
                     bunga = principal * rate * (time * 4);
                 }
             } else if (interestType === 'majemuk') {
+                // Bunga Majemuk
                 if (type === 'bulan') {
                     bunga = principal * Math.pow(1 + rate / 12, time * 12) - principal;
                 } else if (type === 'tahun') {
@@ -105,7 +107,7 @@
                 }
             }
 
-            // Format hasil dengan toLocaleString agar rapi seperti number_format di PHP
+            // Format hasil dengan toLocaleString agar rapi
             let bungaFormatted = bunga.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
 
             // Tampilkan hasil
