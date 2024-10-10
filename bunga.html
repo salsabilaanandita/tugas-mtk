@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator Bunga</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px 5px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: rgb(49, 49, 245);
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: rgb(10, 10, 211);
+        }
+        .result {
+            font-size: 20px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 style="text-align: center;">Kalkulator Bunga</h2>
+        <label for="principal">Modal Awal:</label>
+        <input type="number" id="principal" placeholder="Masukkan jumlah awal">
+
+        <label for="rate">Persentase Bunga:</label>
+        <input type="number" id="rate" placeholder="Masukkan persen bunga">
+
+        <label for="time">Periode:</label>
+        <input type="number" id="time" placeholder="Masukkan waktu (tahun)">
+
+        <label for="type">Pilih Jenis Bunga:</label>
+        <select id="type">
+            <option value="bulan">Per Bulan</option>
+            <option value="tahun">Per Tahun</option>
+            <option value="triwulan">Per Triwulan</option>
+        </select>
+
+        <label for="interestType">Jenis Bunga:</label>
+        <select id="interestType">
+            <option value="tunggal">Bunga Tunggal</option>
+            <option value="majemuk">Bunga Majemuk</option>
+        </select>
+
+        <button onclick="hitungBunga()">Hitung Bunga</button>
+
+        <div class="result" id="hasil" style="text-align: center;">Hasil Disini!</div>
+    </div>
+
+    <script>
+        function hitungBunga() {
+            // Ambil nilai input
+            let principal = document.getElementById('principal').value;
+            let rate = document.getElementById('rate').value;
+            let time = document.getElementById('time').gitvalue;
+            let type = document.getElementById('type').value;
+            let interestType = document.getElementById('interestType').value;
+
+            // Konversi input menjadi angka
+            principal = parseFloat(principal);
+            rate = parseFloat(rate) / 100;
+            time = parseFloat(time);
+
+            let bunga = 0;
+
+            // Hitung bunga sesuai jenis yang dipilih
+            if (interestType === 'tunggal') {
+                if (type === 'bulan') {
+                    bunga = principal * rate * time * 12;
+                } else if (type === 'tahun') {
+                    bunga = principal * rate * time;
+                } else if (type === 'triwulan') {
+                    bunga = principal * rate * (time * 4);
+                }
+            } else if (interestType === 'majemuk') {
+                if (type === 'bulan') {
+                    bunga = principal * Math.pow(1 + rate / 12, time * 12) - principal;
+                } else if (type === 'tahun') {
+                    bunga = principal * Math.pow(1 + rate, time) - principal;
+                } else if (type === 'triwulan') {
+                    bunga = principal * Math.pow(1 + rate / 4, time * 4) - principal;
+                }
+            }
+
+            // Format hasil dengan toLocaleString agar rapi seperti number_format di PHP
+            let bungaFormatted = bunga.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' });
+
+            // Tampilkan hasil
+            document.getElementById('hasil').innerHTML = `Total Bunga: ${bungaFormatted}`;
+        }
+    </script>
+</body>
+</html>
